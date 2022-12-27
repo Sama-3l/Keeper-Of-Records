@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:keeperofrecords/constants/colors.dart';
+import 'course.dart';
 
 class MobileBody extends StatefulWidget {
   const MobileBody({Key? key}) : super(key: key);
@@ -40,13 +41,23 @@ class _MobileBodyState extends State<MobileBody> {
                       ),
                     )),
               ),
-              ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: ((context, index) {
-                    return Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: Text("${index}"));
-                  })),
+              Expanded(
+                  child: Stack(children: [
+                Align(
+                  alignment: Alignment(0.9, 0.9),
+                  child: Container(),
+                ),
+                ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: ((context, index) {
+                      return Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: 16, left: 34, right: 34),
+                              child: CourseContainer()));
+                    }))
+              ])),
             ],
           ),
         ));
