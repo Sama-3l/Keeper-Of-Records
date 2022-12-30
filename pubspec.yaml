@@ -47,6 +47,12 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   google_fonts: ^3.0.1
   flutter_svg: ^1.1.6
+  carbon_icons: ^0.0.1+2
+
+  firebase_core: ^2.4.0
+  firebase_auth: ^4.2.3
+  google_sign_in: ^5.4.2
+  cloud_firestore: ^4.3.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

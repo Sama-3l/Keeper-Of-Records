@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:keeperofrecords/constants/colors.dart';
+import 'package:keeperofrecords/google_signin.dart/signin.dart';
 import 'elements/responsive.dart';
 import 'elements/mainPageMobileBody.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -16,10 +21,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainPage(mobileBody: MobileBody()),
+      color: appBackground,  
+      home: MobileBody()// MainPage(mobileBody: MobileBody()),
     );
   }
 }

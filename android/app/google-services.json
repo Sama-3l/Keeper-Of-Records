@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "82252692849",
+    "project_id": "keeperofrecords-487f9",
+    "storage_bucket": "keeperofrecords-487f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82252692849:android:93f4c09031977014ed4ad0",
+        "android_client_info": {
+          "package_name": "com.example.keeperofrecords"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82252692849-pknrn1ukif6du13mgg526jt3h0jrhpi4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzgv73nVsGgukGcSR94sDHdzEWzgsVLYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82252692849-pknrn1ukif6du13mgg526jt3h0jrhpi4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
