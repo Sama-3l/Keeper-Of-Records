@@ -1,10 +1,14 @@
-// ignore_for_file: curly_braces_in_flow_control_structures
+// ignore_for_file: curly_braces_in_flow_control_structures, non_constant_identifier_names
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:keeperofrecords/google_signin.dart/signin.dart';
+
+List courseList = [];
 
 var userr = {
   "index": 0,
@@ -14,7 +18,7 @@ var userr = {
   "branch": "",
   "semester": 0,
   "email": "",
-  "courses": "",
+  "courses": courseList,
   "LAS": 0,
 };
 
@@ -67,10 +71,47 @@ class StringChecks {
     if (text == "" || text == " ")
       return true;
     else {
-      userDocs
-          .doc(userGlobal?.displayName)
-          .update({"${field.toLowerCase()}": text});
+      userDocs.doc(userGlobal?.displayName).update({field.toLowerCase(): text});
       return false;
     }
   }
+
+  Future<void> addCourse(
+      String courseName, int absent_count, double max) async {
+    userGlobal = FirebaseAuth.instance.currentUser!;
+
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .get()
+        .then((QuerySnapshot snapShot) {
+      for (var doc in snapShot.docs) {
+        print(doc.id);
+        print(userGlobal?.displayName);
+        print(doc.id == userGlobal?.displayName);
+        if (doc.id == userGlobal?.displayName) {
+          courseList = doc['courses'];
+        }
+      }
+    });
+
+    Course obj = Course(courseName, absent_count, max);
+    final objJSON = obj.toJson();
+    print(objJSON);
+    courseList.add(objJSON);
+    FirebaseFirestore.instance
+        .collection("Users")
+        .doc(userGlobal?.displayName)
+        .update({"courses": courseList});
+  }
+}
+
+class Course {
+  late String name;
+  late int absent_count;
+  late double max;
+
+  Course(this.name, this.absent_count, this.max);
+
+  Map toJson() =>
+      {"courseName": name, "absentCount": absent_count, "maxAttendance": max};
 }

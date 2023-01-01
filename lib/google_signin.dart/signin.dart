@@ -121,11 +121,18 @@ class _AppSignInState extends State<AppSignIn> {
                     height: 70,
                     width: 300,
                     child: ElevatedButton(
-                        onPressed: () async{
-                          setState(() async{
-                            errorTextField[0] = (await strMethods.check(username.text, "username"))!;
-                            errorTextField[1] =  (await strMethods.check(branch.text, "branch"))!;
-                            errorTextField[2] = (await strMethods.check(semester.text, "semester"))!;
+                        onPressed: () async {
+                          setState(() async {
+                            errorTextField[0] = (await strMethods.check(
+                                username.text, "username"))!;
+                            errorTextField[1] = (await strMethods.check(
+                                branch.text, "branch"))!;
+                            errorTextField[2] = (await strMethods.check(
+                                semester.text, "semester"))!;
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MobileBody()));
                           });
                         },
                         style: ElevatedButton.styleFrom(

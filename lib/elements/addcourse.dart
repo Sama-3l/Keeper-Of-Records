@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:keeperofrecords/constants/colors.dart';
 import 'package:keeperofrecords/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:keeperofrecords/elements/mainPageMobileBody.dart';
+import 'InputField.dart';
+import 'package:keeperofrecords/google_signin.dart/methods.dart';
 
 class CourseForm extends StatefulWidget {
   const CourseForm({Key? key}) : super(key: key);
@@ -13,10 +16,17 @@ class CourseForm extends StatefulWidget {
 }
 
 class _CourseFormState extends State<CourseForm> {
+  TextEditingController name = TextEditingController();
+  TextEditingController max = TextEditingController();
+  List<bool> errorTextField = [false, false];
+
+  StringChecks test = StringChecks();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appBackground,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           title: Padding(
               padding: EdgeInsets.only(left: 10, top: 20),
@@ -49,8 +59,59 @@ class _CourseFormState extends State<CourseForm> {
                   color: appAccent1,
                   borderRadius: BorderRadius.all(Radius.circular(40))),
               child: Column(children: [
-                TextField(),
-                TextField(),
+                Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: InputWidget(
+                      text: "Course Name",
+                      txt: name,
+                      error: errorTextField[0],
+                      hintColor: appBackground,
+                      borderColorBlack: true,
+                      opacityValue: 0.5,
+                    )),
+                Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: InputWidget(
+                      text: "Maximum Attendance %",
+                      txt: max,
+                      error: errorTextField[1],
+                      hintColor: appBackground,
+                      borderColorBlack: true,
+                      opacityValue: 0.5,
+                    )),
+                Expanded(
+                    child: Align(
+                        alignment: Alignment(0, 0.8),
+                        child: SizedBox(
+                            height: 70,
+                            width: 300,
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    test.addCourse(
+                                        name.text, 0, double.parse(max.text));
+                                    name.clear();
+                                    max.clear();
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MobileBody()));
+                                    /*errorTextField[0] = (await strMethods.check(
+                                        username.text, "username"))!;
+                                    errorTextField[1] = (await strMethods.check(
+                                        branch.text, "branch"))!;*/
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: appBackground,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(60)))),
+                                child: Text("Add Course",
+                                    style: GoogleFonts.poppins(
+                                        color: appAccent1,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold))))))
               ]),
             )
           ],

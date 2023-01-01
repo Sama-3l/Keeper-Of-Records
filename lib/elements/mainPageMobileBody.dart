@@ -8,6 +8,7 @@ import 'package:keeperofrecords/google_signin.dart/signin.dart';
 import 'package:keeperofrecords/google_signin.dart/methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'addcourse.dart';
+import 'package:keeperofrecords/elements/mainPageCourseList.dart';
 
 class MobileBody extends StatefulWidget {
   const MobileBody({Key? key}) : super(key: key);
@@ -77,16 +78,7 @@ class _MobileBodyState extends State<MobileBody> {
                         ),
                         Expanded(
                             child: Stack(children: [
-                          ListView.builder(
-                              itemCount: 10,
-                              itemBuilder: ((context, index) {
-                                return Align(
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: 16, left: 34, right: 34),
-                                        child: CourseContainer()));
-                              })),
+                          CourseList(),
                           Align(
                               alignment: Alignment(0.9, 0.9),
                               child: SizedBox(
@@ -113,8 +105,10 @@ class _MobileBodyState extends State<MobileBody> {
                             child: ElevatedButton.icon(
                                 onPressed: () async {
                                   user = await account.signOut();
-                                  Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) => GoogleLogIn()));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => GoogleLogIn()));
                                 },
                                 icon: Icon(Icons.add),
                                 label: Text("Bye Boys")),
