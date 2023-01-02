@@ -42,7 +42,7 @@ class _CourseFormState extends State<CourseForm> {
               width: 300,
               child: Text(
                 "Course Stats",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                     color: appAccent1,
                     fontWeight: FontWeight.w600,
                     fontSize: 29),
@@ -108,7 +108,7 @@ class _CourseFormState extends State<CourseForm> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(60)))),
                                 child: Text("Add Course",
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.inter(
                                         color: appAccent1,
                                         fontSize: 22,
                                         fontWeight: FontWeight.bold))))))

@@ -56,7 +56,7 @@ class _MobileBodyState extends State<MobileBody> {
                                           width: 300,
                                           child: Text(
                                             "Hi, <Username>",
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                                 color: appAccent1,
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 33),
@@ -68,7 +68,7 @@ class _MobileBodyState extends State<MobileBody> {
                                           width: 300,
                                           child: Text(
                                             "Tasks",
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.inter(
                                                 color: appAccent1,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 29),

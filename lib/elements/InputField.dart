@@ -45,13 +45,13 @@ class _InputWidgetState extends State<InputWidget> {
           controller: widget.txt,
           textInputAction: TextInputAction.next,
           textCapitalization: TextCapitalization.sentences,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
               color: widget.borderColorBlack ? appBackground : appAccent2,
               fontWeight: FontWeight.bold,
               fontSize: 22),
           decoration: InputDecoration(
               hintText: widget.text,
-              hintStyle: GoogleFonts.poppins(
+              hintStyle: GoogleFonts.inter(
                   color: widget.opacity
                       ? widget.hintColor.withOpacity(widget.opacityValue)
                       : widget.hintColor,
@@ -64,7 +64,7 @@ class _InputWidgetState extends State<InputWidget> {
               errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent)),
               errorText: widget.error ? "Check Input Bitch" : null,
-              errorStyle: GoogleFonts.poppins(
+              errorStyle: GoogleFonts.inter(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
                   fontSize: 12)),

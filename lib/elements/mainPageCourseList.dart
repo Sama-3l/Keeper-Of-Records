@@ -22,6 +22,9 @@ class _CourseListState extends State<CourseList> {
 
   Widget body = CircularProgressIndicator();
 
+  final bool checkAttendance = true;
+  double scale = 0.3;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -36,9 +39,6 @@ class _CourseListState extends State<CourseList> {
         .get()
         .then((QuerySnapshot snapShot) {
       for (var doc in snapShot.docs) {
-        print(doc.id);
-        print(user?.displayName);
-        print(doc.id == user?.displayName);
         if (doc.id == user?.displayName) {
           setState(() {
             courseList = doc['courses'];
@@ -46,10 +46,31 @@ class _CourseListState extends State<CourseList> {
         }
       }
     });
-    print(courseList);
     setState(() {
       loading = false;
     });
+  }
+
+  void changeCount(int index) async {
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .get()
+        .then((QuerySnapshot snapShot) {
+      for (var doc in snapShot.docs) {
+        if (doc.id == user?.displayName) {
+          setState(() {
+            var currentCourse = doc['courses'];
+            currentCourse[index]['absentCount'] =
+                doc['courses'][index]['absentCount'] + 1;
+            FirebaseFirestore.instance
+                .collection("Users")
+                .doc(user?.displayName)
+                .update({"courses": currentCourse});
+          });
+        }
+      }
+    });
+    reFresh();
   }
 
   @override
@@ -69,15 +90,139 @@ class _CourseListState extends State<CourseList> {
                       child: Padding(
                           padding:
                               EdgeInsets.only(bottom: 16, left: 34, right: 34),
-                          child: CourseContainer(
+                          child: Container(
+                            height: 84,
+                            width: 377,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: checkAttendance ? safe : danger),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(60))),
+                            child: Row(children: [
+                              Padding(
+                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  child: CountContainer(
+                                      count: courseList[index]['absentCount'])),
+                              Center(
+                                  child: SizedBox(
+                                      height: 40,
+                                      width: 190,
+                                      child: Center(
+                                          child: Text(
+                                              courseList[index]['courseName'],
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.inter(
+                                                  color: appAccent2,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15))))),
+                              Center(
+                                  child: SizedBox(
+                                      height: 80 * scale,
+                                      width: 80 * scale,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          setState(() async {
+                                            await FirebaseFirestore.instance
+                                                .collection('Users')
+                                                .get()
+                                                .then((QuerySnapshot snapShot) {
+                                              for (var doc in snapShot.docs) {
+                                                if (doc.id ==
+                                                    user?.displayName) {
+                                                  setState(() {
+                                                    var currentCourse =
+                                                        doc['courses'];
+                                                    currentCourse[index]
+                                                            ['absentCount'] =
+                                                        doc['courses'][index][
+                                                                'absentCount'] +
+                                                            1;
+                                                    FirebaseFirestore.instance
+                                                        .collection("Users")
+                                                        .doc(user?.displayName)
+                                                        .update({
+                                                      "courses": currentCourse
+                                                    });
+                                                  });
+                                                }
+                                              }
+                                            });
+                                            reFresh();
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            padding: EdgeInsets.all(0),
+                                            primary: appAccent1,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        80 * scale))),
+                                        child: Icon(Icons.add,
+                                            size: 39 * scale,
+                                            color: appBackground),
+                                      ))),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Center(
+                                      child: SizedBox(
+                                          height: 80 * scale,
+                                          width: 80 * scale,
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              await FirebaseFirestore.instance
+                                                  .collection('Users')
+                                                  .get()
+                                                  .then(
+                                                      (QuerySnapshot snapShot) {
+                                                for (var doc in snapShot.docs) {
+                                                  if (doc.id ==
+                                                      user?.displayName) {
+                                                    setState(() {
+                                                      var currentCourse =
+                                                          doc['courses'];
+                                                      currentCourse[index]
+                                                          ['absentCount'] = doc[
+                                                                      'courses']
+                                                                  [index]
+                                                              ['absentCount'] -
+                                                          1;
+                                                      FirebaseFirestore.instance
+                                                          .collection("Users")
+                                                          .doc(
+                                                              user?.displayName)
+                                                          .update({
+                                                        "courses": currentCourse
+                                                      });
+                                                    });
+                                                  }
+                                                }
+                                              });
+                                              reFresh();
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.all(0),
+                                                primary: appAccent2,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            80 * scale))),
+                                            child: Icon(Icons.remove,
+                                                size: 39 * scale,
+                                                color: appBackground),
+                                          ))))
+                            ]),
+                          )
+
+                          /*CourseContainer(
                             index: index,
                               count: courseList[index]['absentCount'],
-                              courseName: courseList[index]['courseName'])));
+                              courseName: courseList[index]['courseName'])*/
+                          ));
                 }))
             : Align(
                 alignment: Alignment(0, -0.5),
                 child: Text("Nothing here",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.inter(
                         color: appAccent2,
                         fontWeight: FontWeight.w200,
                         fontSize: 20)));

@@ -141,7 +141,7 @@ class _AppSignInState extends State<AppSignIn> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(60)))),
                         child: Text("Enter",
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.inter(
                                 color: appBackground,
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold))))

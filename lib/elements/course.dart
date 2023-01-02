@@ -164,7 +164,7 @@ class _CountContainerState extends State<CountContainer> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Center(
             child: Text("${widget.count}",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.inter(
                     color: appBackground,
                     fontWeight: FontWeight.w700,
                     fontSize: 18))));
