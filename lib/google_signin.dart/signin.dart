@@ -8,6 +8,7 @@ import 'package:keeperofrecords/constants/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:keeperofrecords/elements/InputField.dart';
+import 'package:carbon_icons/carbon_icons.dart';
 
 User? userGlobal = null;
 
@@ -24,31 +25,68 @@ class GoogleLogIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: SizedBox(
-            height: 80,
-            width: 80,
-            child: ElevatedButton(
-              onPressed: () async {
-                userGlobal = await account.signup(context, auth);
-                user = userGlobal;
-                DocumentSnapshot ds = await userDocs
-                    .doc(user?.displayName)
-                    .get(); // DOCUMENT NAMES ARE THE DISPLAY NAMES OF THE USERS, THAT WE GET FROM GOOGLE
-                print(ds['username']);
-                if (user == null) {
-                  return;
-                } else if (ds["username"] == "") {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => AppSignIn()));
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  primary: appAccent1,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(80))),
-              child: Icon(Icons.add, size: 39, color: appBackground),
-            )));
+    return Scaffold(
+        backgroundColor: appBackground,
+        body: Column(children: [
+          SizedBox(
+              height: 300,
+              child: Align(
+                  alignment: Alignment(0.1, 0.5),
+                  child: Text("Mark your\nattendance and\nenjoy life",
+                      style: GoogleFonts.inter(
+                          color: appAccent2,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 45)))),
+          SizedBox(
+              height: 100,
+              child: Align(
+                  alignment: Alignment(-0.8, 0),
+                  child: Text("Continue with",
+                      style: GoogleFonts.inter(
+                          color: appAccent2,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 25)))),
+          Padding(
+              padding: EdgeInsets.only(),
+              child: SizedBox(
+                  height: 80,
+                  width: 330,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      userGlobal = await account.signup(context, auth);
+                      user = userGlobal;
+                      DocumentSnapshot ds = await userDocs
+                          .doc(user?.displayName)
+                          .get(); // DOCUMENT NAMES ARE THE DISPLAY NAMES OF THE USERS, THAT WE GET FROM GOOGLE
+                      print(ds['username']);
+                      if (user == null) {
+                        return;
+                      } else if (ds["username"] == "") {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AppSignIn()));
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: appAccent1,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(60))),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(CarbonIcons.logo_google,
+                              size: 39, color: appBackground),
+                          Padding(
+                              padding: EdgeInsets.only(left: 7),
+                              child: Text("Sign in with Google",
+                                  style: GoogleFonts.inter(
+                                      color: appBackground,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20)))
+                        ]),
+                  )))
+        ]));
   }
 }
 
