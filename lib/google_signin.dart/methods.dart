@@ -22,6 +22,9 @@ var userr = {
   "LAS": 0,
 };
 
+
+late bool docNotExists;
+
 class AccountMethods {
   Future<User?> signup(BuildContext context, FirebaseAuth auth) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -38,20 +41,25 @@ class AccountMethods {
       UserCredential result = await auth.signInWithCredential(authCredential);
       User? user = result.user;
 
-      userr["uid"] = user != null ? user.uid : "";
-      userr["photo"] = user?.photoURL;
-      userr["email"] = user?.email;
+      var collectionRef = FirebaseFirestore.instance.collection('Users');
+      var doc = await collectionRef.doc(user?.displayName).get();
+      docNotExists = !doc.exists;
 
-      //This is to get the current list of database
-      final databaseList =
-          await FirebaseFirestore.instance.collection('Users').get();
-      int index = databaseList.docs.length;
+      if (docNotExists) {
+        userr["uid"] = user != null ? user.uid : "";
+        userr["photo"] = user?.photoURL;
+        userr["email"] = user?.email;
 
-      if (userr["index"] == 0) userr["index"] = index;
+        //This is to get the current list of database
+        final databaseList =
+            await FirebaseFirestore.instance.collection('Users').get();
+        int index = databaseList.docs.length;
 
-      final userDocs = FirebaseFirestore.instance.collection('Users');
-      userDocs.doc(user?.displayName).set(userr);
+        if (userr["index"] == 0) userr["index"] = index;
 
+        final userDocs = FirebaseFirestore.instance.collection('Users');
+        userDocs.doc(user?.displayName).set(userr);
+      }
       return user;
     }
   }

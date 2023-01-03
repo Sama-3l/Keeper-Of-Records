@@ -10,6 +10,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'addcourse.dart';
 import 'package:keeperofrecords/elements/mainPageCourseList.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MobileBody extends StatefulWidget {
   const MobileBody({Key? key}) : super(key: key);
 
@@ -21,12 +23,24 @@ class _MobileBodyState extends State<MobileBody> {
   final account = AccountMethods();
   final FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
+  late String username = "";
+  late var result;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     user = auth.currentUser;
+    getUsername();
+  }
+
+  void getUsername() async {
+    final ref = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user?.displayName)
+        .get();
+    setState(() {
+      username = ref['username'];
+    });
   }
 
   @override
@@ -41,10 +55,10 @@ class _MobileBodyState extends State<MobileBody> {
                   : Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: EdgeInsets.only(left: 13),
                           height: 250,
                           child: Align(
-                              alignment: Alignment(-0.8, -0.9),
+                              alignment: Alignment(-1, -0.9),
                               child: Padding(
                                   padding: EdgeInsets.only(top: 15),
                                   child: Column(
@@ -52,18 +66,32 @@ class _MobileBodyState extends State<MobileBody> {
                                           MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
-                                          height: 50,
+                                          height: 55,
                                           width: 300,
-                                          child: Text(
-                                            "Hi, <Username>",
-                                            style: GoogleFonts.inter(
-                                                color: appAccent1,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 33),
-                                          ),
+                                          child: TextButton(
+                                              onPressed: () async {
+                                                user = await account.signOut();
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            GoogleLogIn()));
+                                                // ROUTE TO ACCOUNTS PAGE TO CHANGE ACCOUNT DETAILS AND LOG OUT INFO.
+                                              },
+                                              child: Align(
+                                                  alignment: Alignment(-1, 0.5),
+                                                  child: Text(
+                                                    "Hi, $username.",
+                                                    style: GoogleFonts.inter(
+                                                        color: appAccent1,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 37),
+                                                  ))),
                                         ),
                                         SizedBox(height: 70),
-                                        SizedBox(
+                                        Container(
+                                          padding: EdgeInsets.only(left: 20),
                                           height: 50,
                                           width: 300,
                                           child: Text(
@@ -85,12 +113,16 @@ class _MobileBodyState extends State<MobileBody> {
                                   height: 80,
                                   width: 80,
                                   child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
+                                    onPressed: () async {
+                                      await Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   CourseForm()));
+                                      setState(() {
+                                        result = "Hello";
+                                        print('result');
+                                      });
                                     },
                                     style: ElevatedButton.styleFrom(
                                         primary: appAccent1,
@@ -100,19 +132,6 @@ class _MobileBodyState extends State<MobileBody> {
                                     child: Icon(Icons.add,
                                         size: 39, color: appBackground),
                                   ))),
-                          Align(
-                            alignment: Alignment(0.9, 0.5),
-                            child: ElevatedButton.icon(
-                                onPressed: () async {
-                                  user = await account.signOut();
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => GoogleLogIn()));
-                                },
-                                icon: Icon(Icons.add),
-                                label: Text("Bye Boys")),
-                          ),
                         ])),
                       ],
                     ),

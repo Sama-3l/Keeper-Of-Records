@@ -55,6 +55,7 @@ class GoogleLogIn extends StatelessWidget {
                     onPressed: () async {
                       userGlobal = await account.signup(context, auth);
                       user = userGlobal;
+                      print(user);
                       DocumentSnapshot ds = await userDocs
                           .doc(user?.displayName)
                           .get(); // DOCUMENT NAMES ARE THE DISPLAY NAMES OF THE USERS, THAT WE GET FROM GOOGLE
@@ -66,6 +67,12 @@ class GoogleLogIn extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => AppSignIn()));
+                      }
+                      else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MobileBody()));
                       }
                     },
                     style: ElevatedButton.styleFrom(

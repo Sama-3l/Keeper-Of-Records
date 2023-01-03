@@ -27,13 +27,13 @@ class _CourseListState extends State<CourseList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     reFresh();
   }
 
   void reFresh() async {
     user = FirebaseAuth.instance.currentUser!;
+    courseList = [];
     await FirebaseFirestore.instance
         .collection('Users')
         .get()
@@ -46,6 +46,7 @@ class _CourseListState extends State<CourseList> {
         }
       }
     });
+    print('course List $courseList');
     setState(() {
       loading = false;
     });
@@ -152,7 +153,7 @@ class _CourseListState extends State<CourseList> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                             padding: EdgeInsets.all(0),
-                                            primary: appAccent1,
+                                            backgroundColor: appAccent1,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(
@@ -201,7 +202,7 @@ class _CourseListState extends State<CourseList> {
                                             },
                                             style: ElevatedButton.styleFrom(
                                                 padding: EdgeInsets.all(0),
-                                                primary: appAccent2,
+                                                backgroundColor: appAccent2,
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(

@@ -92,10 +92,7 @@ class _CourseFormState extends State<CourseForm> {
                                         name.text, 0, double.parse(max.text));
                                     name.clear();
                                     max.clear();
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MobileBody()));
+                                    Navigator.pop(context, 'Hello');
                                     /*errorTextField[0] = (await strMethods.check(
                                         username.text, "username"))!;
                                     errorTextField[1] = (await strMethods.check(

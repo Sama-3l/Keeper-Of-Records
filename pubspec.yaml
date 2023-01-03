@@ -49,6 +49,7 @@ dev_dependencies:
   flutter_svg: ^1.1.6
   carbon_icons: ^0.0.1+2
   unicons: ^2.1.0
+  rflutter_alert: ^2.0.4
 
   firebase_core: ^2.4.0
   firebase_auth: ^4.2.3

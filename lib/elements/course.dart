@@ -66,9 +66,6 @@ class _CourseContainerState extends State<CourseContainer> {
                           .get()
                           .then((QuerySnapshot snapShot) {
                         for (var doc in snapShot.docs) {
-                          print(doc.id);
-                          print(user?.displayName);
-                          print(doc.id == user?.displayName);
                           if (doc.id == user?.displayName) {
                             setState(() {
                               var currentCourse = doc['courses'];
@@ -76,13 +73,10 @@ class _CourseContainerState extends State<CourseContainer> {
                                   doc['courses'][widget.index]['absentCount'] +
                                       1;
 
-                              print(currentCourse);
                               FirebaseFirestore.instance
                                   .collection("Users")
                                   .doc(user?.displayName)
                                   .update({"courses": currentCourse});
-                              print(
-                                  doc['courses'][widget.index]['absentCount']);
                             });
                           }
                         }
@@ -111,9 +105,6 @@ class _CourseContainerState extends State<CourseContainer> {
                             .get()
                             .then((QuerySnapshot snapShot) {
                           for (var doc in snapShot.docs) {
-                            print(doc.id);
-                            print(user?.displayName);
-                            print(doc.id == user?.displayName);
                             if (doc.id == user?.displayName) {
                               setState(() {
                                 var currentCourse = doc['courses'];
@@ -121,7 +112,6 @@ class _CourseContainerState extends State<CourseContainer> {
                                     doc['courses'][widget.index]
                                             ['absentCount'] -
                                         1;
-                                print(currentCourse);
                                 FirebaseFirestore.instance
                                     .collection("Users")
                                     .doc(user?.displayName)
