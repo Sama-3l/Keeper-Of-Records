@@ -12,10 +12,10 @@ class CourseList extends StatefulWidget {
   const CourseList({Key? key}) : super(key: key);
 
   @override
-  State<CourseList> createState() => _CourseListState();
+  State<CourseList> createState() => CourseListState();
 }
 
-class _CourseListState extends State<CourseList> {
+class CourseListState extends State<CourseList> {
   List courseList = [];
   User? user;
   bool loading = true;
@@ -33,7 +33,6 @@ class _CourseListState extends State<CourseList> {
 
   void reFresh() async {
     user = FirebaseAuth.instance.currentUser!;
-    courseList = [];
     await FirebaseFirestore.instance
         .collection('Users')
         .get()
@@ -47,9 +46,11 @@ class _CourseListState extends State<CourseList> {
       }
     });
     print('course List $courseList');
-    setState(() {
-      loading = false;
-    });
+    if (loading == true) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   void changeCount(int index) async {
@@ -121,33 +122,30 @@ class _CourseListState extends State<CourseList> {
                                       height: 80 * scale,
                                       width: 80 * scale,
                                       child: ElevatedButton(
-                                        onPressed: () {
-                                          setState(() async {
-                                            await FirebaseFirestore.instance
-                                                .collection('Users')
-                                                .get()
-                                                .then((QuerySnapshot snapShot) {
-                                              for (var doc in snapShot.docs) {
-                                                if (doc.id ==
-                                                    user?.displayName) {
-                                                  setState(() {
-                                                    var currentCourse =
-                                                        doc['courses'];
-                                                    currentCourse[index]
-                                                            ['absentCount'] =
-                                                        doc['courses'][index][
-                                                                'absentCount'] +
-                                                            1;
-                                                    FirebaseFirestore.instance
-                                                        .collection("Users")
-                                                        .doc(user?.displayName)
-                                                        .update({
-                                                      "courses": currentCourse
-                                                    });
+                                        onPressed: () async{
+                                          await FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .get()
+                                              .then((QuerySnapshot snapShot) {
+                                            for (var doc in snapShot.docs) {
+                                              if (doc.id == user?.displayName) {
+                                                setState(() {
+                                                  var currentCourse =
+                                                      doc['courses'];
+                                                  currentCourse[index]
+                                                          ['absentCount'] =
+                                                      doc['courses'][index]
+                                                              ['absentCount'] +
+                                                          1;
+                                                  FirebaseFirestore.instance
+                                                      .collection("Users")
+                                                      .doc(user?.displayName)
+                                                      .update({
+                                                    "courses": currentCourse
                                                   });
-                                                }
+                                                });
                                               }
-                                            });
+                                            }
                                             reFresh();
                                           });
                                         },

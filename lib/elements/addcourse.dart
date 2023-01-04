@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:keeperofrecords/constants/colors.dart';
@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:keeperofrecords/elements/mainPageMobileBody.dart';
 import 'InputField.dart';
 import 'package:keeperofrecords/google_signin.dart/methods.dart';
+import 'package:keeperofrecords/elements/mainPageCourseList.dart';
 
 class CourseForm extends StatefulWidget {
   const CourseForm({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _CourseFormState extends State<CourseForm> {
   List<bool> errorTextField = [false, false];
 
   StringChecks test = StringChecks();
+  CourseListState courseListobj = CourseListState();
 
   @override
   Widget build(BuildContext context) {
@@ -87,12 +89,14 @@ class _CourseFormState extends State<CourseForm> {
                             width: 300,
                             child: ElevatedButton(
                                 onPressed: () async {
-                                  setState(() {
-                                    test.addCourse(
+                                  setState(() async {
+                                    await test.addCourse(
                                         name.text, 0, double.parse(max.text));
-                                    name.clear();
-                                    max.clear();
-                                    Navigator.pop(context, 'Hello');
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MobileBody()));
                                     /*errorTextField[0] = (await strMethods.check(
                                         username.text, "username"))!;
                                     errorTextField[1] = (await strMethods.check(

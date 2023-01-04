@@ -26,6 +26,10 @@ class _MobileBodyState extends State<MobileBody> {
   late String username = "";
   late var result;
 
+  bool loading = false;
+
+  CourseListState obj = CourseListState();
+
   @override
   void initState() {
     super.initState();
@@ -106,7 +110,7 @@ class _MobileBodyState extends State<MobileBody> {
                         ),
                         Expanded(
                             child: Stack(children: [
-                          CourseList(),
+                          loading ? CourseList() : CourseList(),
                           Align(
                               alignment: Alignment(0.9, 0.9),
                               child: SizedBox(
@@ -114,14 +118,13 @@ class _MobileBodyState extends State<MobileBody> {
                                   width: 80,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      await Navigator.push(
+                                      await Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   CourseForm()));
                                       setState(() {
-                                        result = "Hello";
-                                        print('result');
+                                        loading = !loading;
                                       });
                                     },
                                     style: ElevatedButton.styleFrom(
