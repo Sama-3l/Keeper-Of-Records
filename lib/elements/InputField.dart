@@ -42,6 +42,8 @@ class _InputWidgetState extends State<InputWidget> {
                             ? appBackground
                             : appAccent1))),
         child: TextField(
+          scrollPadding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           controller: widget.txt,
           textInputAction: TextInputAction.next,
           textCapitalization: TextCapitalization.sentences,

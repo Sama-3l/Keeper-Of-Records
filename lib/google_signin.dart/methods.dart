@@ -22,7 +22,6 @@ var userr = {
   "LAS": 0,
 };
 
-
 late bool docNotExists;
 
 class AccountMethods {
@@ -68,6 +67,24 @@ class AccountMethods {
     GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
     return null;
+  }
+
+  Future<bool> checkIntro() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var collectionRef = FirebaseFirestore.instance.collection('Users');
+      var doc = await collectionRef.doc(user.displayName).get();
+
+      print(user);
+      print(doc.exists);
+      if (doc.exists)
+        return false;
+      else
+        return true;
+    }
+    else{
+      return true;
+    }
   }
 }
 

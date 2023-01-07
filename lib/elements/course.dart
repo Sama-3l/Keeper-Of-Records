@@ -32,105 +32,109 @@ class _CourseContainerState extends State<CourseContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 84,
-      width: 377,
-      decoration: BoxDecoration(
-          border: Border.all(color: checkAttendance ? safe : danger),
-          borderRadius: BorderRadius.all(Radius.circular(60))),
-      child: Row(children: [
-        Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: CountContainer(count: widget.count)),
-        Center(
-            child: SizedBox(
-                height: 40,
-                width: 190,
-                child: Center(
-                    child: Text(widget.courseName,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            color: appAccent2,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15))))),
-        Center(
-            child: SizedBox(
-                height: 80 * scale,
-                width: 80 * scale,
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      user = FirebaseAuth.instance.currentUser!;
-                      FirebaseFirestore.instance
-                          .collection('Users')
-                          .get()
-                          .then((QuerySnapshot snapShot) {
-                        for (var doc in snapShot.docs) {
-                          if (doc.id == user?.displayName) {
-                            setState(() {
-                              var currentCourse = doc['courses'];
-                              currentCourse[widget.index]['absentCount'] =
-                                  doc['courses'][widget.index]['absentCount'] +
-                                      1;
-
-                              FirebaseFirestore.instance
-                                  .collection("Users")
-                                  .doc(user?.displayName)
-                                  .update({"courses": currentCourse});
-                            });
-                          }
-                        }
-                      });
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(0),
-                      primary: appAccent1,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(80 * scale))),
-                  child:
-                      Icon(Icons.add, size: 39 * scale, color: appBackground),
-                ))),
-        Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Center(
+    return AspectRatio(
+        aspectRatio: 377 / 84,
+        child: Container(
+          // height: 84,
+          // width: 377,
+          decoration: BoxDecoration(
+              border: Border.all(color: checkAttendance ? safe : danger),
+              borderRadius: BorderRadius.all(Radius.circular(60))),
+          child: Row(children: [
+            Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: CountContainer(count: widget.count)),
+            Center(
+                child: SizedBox(
+                    height: 40,
+                    width: 190,
+                    child: Center(
+                        child: Text(widget.courseName,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                                color: appAccent2,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15))))),
+            Center(
                 child: SizedBox(
                     height: 80 * scale,
                     width: 80 * scale,
                     child: ElevatedButton(
                       onPressed: () {
-                        user = FirebaseAuth.instance.currentUser!;
-                        FirebaseFirestore.instance
-                            .collection('Users')
-                            .get()
-                            .then((QuerySnapshot snapShot) {
-                          for (var doc in snapShot.docs) {
-                            if (doc.id == user?.displayName) {
-                              setState(() {
-                                var currentCourse = doc['courses'];
-                                currentCourse[widget.index]['absentCount'] =
-                                    doc['courses'][widget.index]
-                                            ['absentCount'] -
-                                        1;
-                                FirebaseFirestore.instance
-                                    .collection("Users")
-                                    .doc(user?.displayName)
-                                    .update({"courses": currentCourse});
-                              });
+                        setState(() {
+                          user = FirebaseAuth.instance.currentUser!;
+                          FirebaseFirestore.instance
+                              .collection('Users')
+                              .get()
+                              .then((QuerySnapshot snapShot) {
+                            for (var doc in snapShot.docs) {
+                              if (doc.id == user?.displayName) {
+                                setState(() {
+                                  var currentCourse = doc['courses'];
+                                  currentCourse[widget.index]['absentCount'] =
+                                      doc['courses'][widget.index]
+                                              ['absentCount'] +
+                                          1;
+
+                                  FirebaseFirestore.instance
+                                      .collection("Users")
+                                      .doc(user?.displayName)
+                                      .update({"courses": currentCourse});
+                                });
+                              }
                             }
-                          }
+                          });
                         });
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.all(0),
-                          primary: appAccent2,
+                          primary: appAccent1,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(80 * scale))),
-                      child: Icon(Icons.remove,
+                      child: Icon(Icons.add,
                           size: 39 * scale, color: appBackground),
-                    ))))
-      ]),
-    );
+                    ))),
+            Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Center(
+                    child: SizedBox(
+                        height: 80 * scale,
+                        width: 80 * scale,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            user = FirebaseAuth.instance.currentUser!;
+                            FirebaseFirestore.instance
+                                .collection('Users')
+                                .get()
+                                .then((QuerySnapshot snapShot) {
+                              for (var doc in snapShot.docs) {
+                                if (doc.id == user?.displayName) {
+                                  setState(() {
+                                    var currentCourse = doc['courses'];
+                                    currentCourse[widget.index]['absentCount'] =
+                                        doc['courses'][widget.index]
+                                                ['absentCount'] -
+                                            1;
+                                    FirebaseFirestore.instance
+                                        .collection("Users")
+                                        .doc(user?.displayName)
+                                        .update({"courses": currentCourse});
+                                  });
+                                }
+                              }
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.all(0),
+                              primary: appAccent2,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(80 * scale))),
+                          child: Icon(Icons.remove,
+                              size: 39 * scale, color: appBackground),
+                        ))))
+          ]),
+        ));
   }
 }
 

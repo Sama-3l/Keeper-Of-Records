@@ -50,94 +50,90 @@ class _MobileBodyState extends State<MobileBody> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Scaffold(
-              backgroundColor: Colors.black,
-              body: user == null
-                  ? GoogleLogIn()
-                  : Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 13),
-                          height: 250,
-                          child: Align(
-                              alignment: Alignment(-1, -0.9),
-                              child: Padding(
-                                  padding: EdgeInsets.only(top: 15),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 55,
-                                          width: 300,
-                                          child: TextButton(
-                                              onPressed: () async {
-                                                user = await account.signOut();
-                                                Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            GoogleLogIn()));
-                                                // ROUTE TO ACCOUNTS PAGE TO CHANGE ACCOUNT DETAILS AND LOG OUT INFO.
-                                              },
-                                              child: Align(
-                                                  alignment: Alignment(-1, 0.5),
-                                                  child: Text(
-                                                    "Hi, $username.",
-                                                    style: GoogleFonts.inter(
-                                                        color: appAccent1,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        fontSize: 37),
-                                                  ))),
-                                        ),
-                                        SizedBox(height: 70),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 20),
-                                          height: 50,
-                                          width: 300,
+        child: Scaffold(
+      backgroundColor: Colors.black,
+      body: user == null
+          ? GoogleLogIn()
+          : Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 13),
+                  height: 250,
+                  child: Align(
+                      alignment: Alignment(-1, -0.9),
+                      child: Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 55,
+                                  width: 300,
+                                  child: TextButton(
+                                      onPressed: () async {
+                                        user = await account.signOut();
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    GoogleLogIn()));
+                                        // ROUTE TO ACCOUNTS PAGE TO CHANGE ACCOUNT DETAILS AND LOG OUT INFO.
+                                      },
+                                      child: Align(
+                                          alignment: Alignment(-1, 0.5),
                                           child: Text(
-                                            "Tasks",
+                                            "Hi, $username.",
                                             style: GoogleFonts.inter(
                                                 color: appAccent1,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 29),
-                                          ),
-                                        ),
-                                      ]))),
-                        ),
-                        Expanded(
-                            child: Stack(children: [
-                          loading ? CourseList() : CourseList(),
-                          Align(
-                              alignment: Alignment(0.9, 0.9),
-                              child: SizedBox(
-                                  height: 80,
-                                  width: 80,
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      await Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CourseForm()));
-                                      setState(() {
-                                        loading = !loading;
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        primary: appAccent1,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(80))),
-                                    child: Icon(Icons.add,
-                                        size: 39, color: appBackground),
-                                  ))),
-                        ])),
-                      ],
-                    ),
-            )));
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 37),
+                                          ))),
+                                ),
+                                SizedBox(height: 70),
+                                Container(
+                                  padding: EdgeInsets.only(left: 20),
+                                  height: 50,
+                                  width: 300,
+                                  child: Text(
+                                    "Tasks",
+                                    style: GoogleFonts.inter(
+                                        color: appAccent1,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 29),
+                                  ),
+                                ),
+                              ]))),
+                ),
+
+                //Use floating action button instead
+                Expanded(
+                    child: Stack(children: [
+                  loading ? CourseList() : CourseList(),
+                  Align(
+                      alignment: Alignment(0.9, 0.9),
+                      child: SizedBox(
+                          height: 80,
+                          width: 80,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CourseForm()));
+                              setState(() {
+                                loading = !loading;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: appAccent1,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(80))),
+                            child:
+                                Icon(Icons.add, size: 39, color: appBackground),
+                          ))),
+                ])),
+              ],
+            ),
+    ));
   }
 }

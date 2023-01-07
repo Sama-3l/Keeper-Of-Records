@@ -47,7 +47,7 @@ class GoogleLogIn extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           fontSize: 25)))),
           Padding(
-              padding: EdgeInsets.only(),
+              padding: EdgeInsets.only(top: 20),
               child: SizedBox(
                   height: 80,
                   width: 330,
@@ -55,11 +55,9 @@ class GoogleLogIn extends StatelessWidget {
                     onPressed: () async {
                       userGlobal = await account.signup(context, auth);
                       user = userGlobal;
-                      print(user);
                       DocumentSnapshot ds = await userDocs
                           .doc(user?.displayName)
                           .get(); // DOCUMENT NAMES ARE THE DISPLAY NAMES OF THE USERS, THAT WE GET FROM GOOGLE
-                      print(ds['username']);
                       if (user == null) {
                         return;
                       } else if (ds["username"] == "") {
@@ -67,8 +65,7 @@ class GoogleLogIn extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => AppSignIn()));
-                      }
-                      else {
+                      } else {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -76,7 +73,7 @@ class GoogleLogIn extends StatelessWidget {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: appAccent1,
+                        backgroundColor: appAccent1,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(60))),
                     child: Row(
@@ -99,7 +96,7 @@ class GoogleLogIn extends StatelessWidget {
 
 //For App Sign In
 class AppSignIn extends StatefulWidget {
-  const AppSignIn({Key? key}) : super(key: key);
+  const AppSignIn({super.key});
 
   @override
   State<AppSignIn> createState() => _AppSignInState();
@@ -117,33 +114,33 @@ class _AppSignInState extends State<AppSignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      backgroundColor: appBackground,
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 100,
-          backgroundColor: Colors.transparent,
-          title: Padding(
-              padding: EdgeInsets.only(
-                  top: 30, left: MediaQuery.of(context).size.width - 100),
-              child: IconButton(
-                  onPressed: () async {
-                    userGlobal = await accounts.signOut();
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => GoogleLogIn()));
-                  },
-                  padding: EdgeInsets.all(5),
-                  icon: Icon(Icons.account_circle_outlined,
-                      color: appAccent1, size: 39)))),
-      body: Center(
-          child: Container(
-              height: 500,
-              width: 350,
-              color: Colors.transparent,
-              child: Column(children: [
-                Expanded(
+    return Scaffold(
+        backgroundColor: appBackground,
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+            elevation: 0,
+            toolbarHeight: 70,
+            backgroundColor: Colors.transparent,
+            title: Padding(
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width - 100),
+                child: IconButton(
+                    onPressed: () async {
+                      userGlobal = await accounts.signOut();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GoogleLogIn()));
+                    },
+                    padding: EdgeInsets.all(5),
+                    icon: Icon(Icons.account_circle_outlined,
+                        color: appAccent1, size: 39)))),
+        body: Center(
+            child: Container(
+                height: 500,
+                width: 350,
+                color: Colors.transparent,
+                child: SingleChildScrollView(
                     child: Column(children: [
                   InputWidget(
                       text: "Username",
@@ -161,62 +158,37 @@ class _AppSignInState extends State<AppSignIn> {
                           text: "Semester",
                           txt: semester,
                           error: errorTextField[2])),
-                ])),
-                SizedBox(
-                    height: 70,
-                    width: 300,
-                    child: ElevatedButton(
-                        onPressed: () async {
-                          setState(() async {
-                            errorTextField[0] = (await strMethods.check(
-                                username.text, "username"))!;
-                            errorTextField[1] = (await strMethods.check(
-                                branch.text, "branch"))!;
-                            errorTextField[2] = (await strMethods.check(
-                                semester.text, "semester"))!;
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MobileBody()));
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: appAccent1,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(60)))),
-                        child: Text("Enter",
-                            style: GoogleFonts.inter(
-                                color: appBackground,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold))))
-              ]))),
-    ));
+                  Padding(
+                      padding: EdgeInsets.only(top: 90, bottom: 20),
+                      child: SizedBox(
+                          height: 70,
+                          width: 300,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                setState(() async {
+                                  errorTextField[0] = (await strMethods.check(
+                                      username.text, "username"))!;
+                                  errorTextField[1] = (await strMethods.check(
+                                      branch.text, "branch"))!;
+                                  errorTextField[2] = (await strMethods.check(
+                                      semester.text, "semester"))!;
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MobileBody()));
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: appAccent1,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(60)))),
+                              child: Text("Enter",
+                                  style: GoogleFonts.inter(
+                                      color: appBackground,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold)))))
+                ])))));
   }
 }
 
-/*class GoogleSignInProvider extends ChangeNotifier {
-  final googleSignIn = GoogleSignIn();
-
-  GoogleSignInAccount? _user;
-
-  GoogleSignInAccount get user => _user!;
-
-  Future googleLogin() async{
-    final googleUser = await googleSignIn.signIn();
-
-    if(googleUser == null ) return;
-    _user = googleUser;
-
-    final googleAuth = await googleUser.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken
-    );
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
-
-    notifyListeners();
-  }
-}*/
