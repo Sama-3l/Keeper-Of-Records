@@ -88,7 +88,7 @@ class _CourseContainerState extends State<CourseContainer> {
                       },
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.all(0),
-                          primary: appAccent1,
+                          backgroundColor: appAccent1,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(80 * scale))),
                       child: Icon(Icons.add,
@@ -126,7 +126,7 @@ class _CourseContainerState extends State<CourseContainer> {
                           },
                           style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.all(0),
-                              primary: appAccent2,
+                              backgroundColor: appAccent2,
                               shape: RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.circular(80 * scale))),

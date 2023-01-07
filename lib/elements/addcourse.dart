@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:keeperofrecords/constants/colors.dart';
-import 'package:keeperofrecords/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:keeperofrecords/elements/mainPageMobileBody.dart';
 import 'InputField.dart';
@@ -114,10 +113,6 @@ class _CourseFormState extends State<CourseForm> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     MobileBody()));
-                                        /*errorTextField[0] = (await strMethods.check(
-                                        username.text, "username"))!;
-                                    errorTextField[1] = (await strMethods.check(
-                                        branch.text, "branch"))!;*/
                                       });
                                     },
                                     style: ElevatedButton.styleFrom(

@@ -1,4 +1,4 @@
-// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously, prefer_const_constructors
+// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously, prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:keeperofrecords/elements/InputField.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 
-User? userGlobal = null;
+User? userGlobal;
 
 //Google log In page
 class GoogleLogIn extends StatelessWidget {

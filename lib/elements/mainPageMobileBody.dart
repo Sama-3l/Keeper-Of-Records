@@ -125,7 +125,7 @@ class _MobileBodyState extends State<MobileBody> {
                               });
                             },
                             style: ElevatedButton.styleFrom(
-                                primary: appAccent1,
+                                backgroundColor: appAccent1,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(80))),
                             child:

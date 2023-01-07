@@ -61,6 +61,7 @@ class AccountMethods {
       }
       return user;
     }
+    return null;
   }
 
   Future<User?> signOut() async {
@@ -75,14 +76,11 @@ class AccountMethods {
       var collectionRef = FirebaseFirestore.instance.collection('Users');
       var doc = await collectionRef.doc(user.displayName).get();
 
-      print(user);
-      print(doc.exists);
       if (doc.exists)
         return false;
       else
         return true;
-    }
-    else{
+    } else {
       return true;
     }
   }
@@ -92,7 +90,6 @@ class StringChecks {
   Future<bool?> check(String text, String field) async {
     final userDocs = FirebaseFirestore.instance.collection('Users');
 
-    print(text);
     if (text == "" || text == " ")
       return true;
     else {
@@ -110,9 +107,6 @@ class StringChecks {
         .get()
         .then((QuerySnapshot snapShot) {
       for (var doc in snapShot.docs) {
-        print(doc.id);
-        print(userGlobal?.displayName);
-        print(doc.id == userGlobal?.displayName);
         if (doc.id == userGlobal?.displayName) {
           courseList = doc['courses'];
         }
@@ -121,7 +115,6 @@ class StringChecks {
 
     Course obj = Course(courseName, absent_count, max);
     final objJSON = obj.toJson();
-    print(objJSON);
     courseList.add(objJSON);
     FirebaseFirestore.instance
         .collection("Users")

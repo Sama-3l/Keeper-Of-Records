@@ -1,19 +1,12 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:keeperofrecords/constants/colors.dart';
 import 'package:keeperofrecords/google_signin.dart/methods.dart';
-import 'package:keeperofrecords/google_signin.dart/signin.dart';
-import 'elements/responsive.dart';
 import 'elements/mainPageMobileBody.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:keeperofrecords/elements/appIntro.dart';
-import 'package:introduction_screen/introduction_screen.dart';
-
-import 'package:google_fonts/google_fonts.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
