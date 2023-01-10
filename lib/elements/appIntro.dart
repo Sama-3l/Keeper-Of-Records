@@ -65,7 +65,7 @@ List<PageViewModel> introductionScreens = [
       decoration: pageDecoration),
 ];
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatelessWidget {       //3.1.1 Adds the intro pages using the layouts specified above
   const IntroPage({super.key});
 
   void _onIntroEnd(context) {
@@ -92,7 +92,7 @@ class IntroPage extends StatelessWidget {
           style: GoogleFonts.inter(
               color: appAccent1, fontSize: 20, fontWeight: FontWeight.bold)),
       onDone: () => _onIntroEnd(context),
-      onSkip: () => _onIntroEnd(context),
+      onSkip: () => _onIntroEnd(context),             //3.1.2 Leads the the MobileBody using the method
       dotsDecorator: const DotsDecorator(
         size: Size(12.0, 12.0),
         color: Color(0xffD9D9D9),

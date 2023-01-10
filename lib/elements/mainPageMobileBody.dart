@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: file_names, prefer_const_constructors, use_build_context_synchronously, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +8,7 @@ import 'package:keeperofrecords/google_signin.dart/signin.dart';
 import 'package:keeperofrecords/google_signin.dart/methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'addcourse.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:keeperofrecords/elements/mainPageCourseList.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,15 +34,15 @@ class _MobileBodyState extends State<MobileBody> {
   @override
   void initState() {
     super.initState();
-    user = auth.currentUser;
-    getUsername();
+    user = auth.currentUser;              //3.2.1 Gets the current user and
+    getUsername();                               // checks for the username to set on top of the main page
   }
 
   void getUsername() async {
     final ref = await FirebaseFirestore.instance
         .collection('Users')
         .doc(user?.displayName)
-        .get();
+        .get();                                                       
     setState(() {
       username = ref['username'];
     });
@@ -52,8 +53,8 @@ class _MobileBodyState extends State<MobileBody> {
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.black,
-      body: user == null
-          ? GoogleLogIn()
+      body: user == null                                //3.2.2 After initState if the user is null
+          ? GoogleLogIn()                               // we move to creating a log in and database 
           : Column(
               children: [
                 Container(
@@ -71,8 +72,8 @@ class _MobileBodyState extends State<MobileBody> {
                                   width: 300,
                                   child: TextButton(
                                       onPressed: () async {
-                                        user = await account.signOut();
-                                        Navigator.pushReplacement(
+                                        user = await account.signOut();               //(3.2.2:1) Allows signing out event
+                                        Navigator.pushReplacement(                          // and pushing to Log in page
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
@@ -81,8 +82,11 @@ class _MobileBodyState extends State<MobileBody> {
                                       },
                                       child: Align(
                                           alignment: Alignment(-1, 0.5),
-                                          child: Text(
+                                          child: AutoSizeText(
                                             "Hi, $username.",
+                                            maxLines: 1,
+                                            minFontSize: 33,
+                                            overflow: TextOverflow.ellipsis,
                                             style: GoogleFonts.inter(
                                                 color: appAccent1,
                                                 fontWeight: FontWeight.w700,
@@ -108,13 +112,13 @@ class _MobileBodyState extends State<MobileBody> {
                 //Use floating action button instead
                 Expanded(
                     child: Stack(children: [
-                  loading ? CourseList() : CourseList(),
+                  loading ? CourseList() : CourseList(),                      //(3.2.2:2) When the loading is completed, refreshes the list
                   Align(
                       alignment: Alignment(0.9, 0.9),
                       child: SizedBox(
                           height: 80,
                           width: 80,
-                          child: ElevatedButton(
+                          child: ElevatedButton(                                        //(3.2.2:3) Button to add a new entry       
                             onPressed: () async {
                               await Navigator.pushReplacement(
                                   context,
@@ -124,7 +128,7 @@ class _MobileBodyState extends State<MobileBody> {
                                 loading = !loading;
                               });
                             },
-                            style: ElevatedButton.styleFrom(
+                            style: ElevatedButton.styleFrom(  
                                 backgroundColor: appAccent1,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(80))),

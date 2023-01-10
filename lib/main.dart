@@ -23,9 +23,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         color: appBackground,
-        home:
-            CheckMainWidget() //MobileBody() // MainPage(mobileBody: MobileBody()),
-        );
+        home: CheckMainWidget());   //1. Checks if we the main widget needs to be an intro
   }
 }
 
@@ -44,8 +42,8 @@ class _CheckMainWidgetState extends State<CheckMainWidget> {
   @override
   void initState() {
     super.initState();
-    checkloading();
-  }
+    checkloading();                       //2. Waits for checkIntro which returns TRUE if we need intro pages, if the database doesn't
+  }                                          //exists
 
   void checkloading() async {
     introNeed = await obj.checkIntro();
@@ -59,13 +57,13 @@ class _CheckMainWidgetState extends State<CheckMainWidget> {
     return loading
         ? Center(
             child: SizedBox(
-              height: 50,
-              width: 50,
+                height: 50,
+                width: 50,
                 child: CircularProgressIndicator(
-            color: appAccent1,
-          )))
-        : introNeed
-            ? IntroPage()
-            : MobileBody();
+                  color: appAccent1,
+                )))
+        : introNeed                         
+            ? IntroPage()              //3.1 Intro pages which lead to MobileBody for database creation
+            : MobileBody();           //3.2 Going to mobile body if the database exists
   }
 }

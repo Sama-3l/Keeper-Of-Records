@@ -14,6 +14,7 @@ User? userGlobal;
 
 //Google log In page
 class GoogleLogIn extends StatelessWidget {
+  //(3.2.2.1) Page for google log in
   GoogleLogIn({Key? key}) : super(key: key);
 
   final account = AccountMethods();
@@ -53,6 +54,7 @@ class GoogleLogIn extends StatelessWidget {
                   width: 330,
                   child: ElevatedButton(
                     onPressed: () async {
+                      //(3.2.2.1:1) Checks if the username is null, then moves to App login
                       userGlobal = await account.signup(context, auth);
                       user = userGlobal;
                       DocumentSnapshot ds = await userDocs
@@ -96,6 +98,7 @@ class GoogleLogIn extends StatelessWidget {
 
 //For App Sign In
 class AppSignIn extends StatefulWidget {
+  //(3.2.2.2) Page for user stats in the database
   const AppSignIn({super.key});
 
   @override
@@ -165,6 +168,7 @@ class _AppSignInState extends State<AppSignIn> {
                           width: 300,
                           child: ElevatedButton(
                               onPressed: () async {
+                                //(3.2.2.2:1) Checks if the enteries are correct and passes to mobile body if it works
                                 setState(() async {
                                   errorTextField[0] = (await strMethods.check(
                                       username.text, "username"))!;
@@ -172,10 +176,15 @@ class _AppSignInState extends State<AppSignIn> {
                                       branch.text, "branch"))!;
                                   errorTextField[2] = (await strMethods.check(
                                       semester.text, "semester"))!;
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MobileBody()));
+                                  if (errorTextField[0] &&
+                                      errorTextField[1] &&
+                                      errorTextField[2]) {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MobileBody()));
+                                  }
                                 });
                               },
                               style: ElevatedButton.styleFrom(
@@ -191,4 +200,3 @@ class _AppSignInState extends State<AppSignIn> {
                 ])))));
   }
 }
-

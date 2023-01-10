@@ -13,7 +13,9 @@ class InputWidget extends StatefulWidget {
       this.hintColor = Colors.white,
       this.opacity = true,
       this.opacityValue = 0.7,
-      this.borderColorBlack = false})
+      this.borderColorBlack = false,
+      this.autofocus = false,
+      this.fontSize = 22})
       : super(key: key);
 
   String text;
@@ -23,6 +25,8 @@ class InputWidget extends StatefulWidget {
   bool opacity;
   double opacityValue;
   bool borderColorBlack;
+  double fontSize;
+  bool autofocus;
 
   @override
   State<InputWidget> createState() => _InputWidgetState();
@@ -42,6 +46,7 @@ class _InputWidgetState extends State<InputWidget> {
                             ? appBackground
                             : appAccent1))),
         child: TextField(
+          autofocus: widget.autofocus,
           scrollPadding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           controller: widget.txt,
@@ -50,7 +55,7 @@ class _InputWidgetState extends State<InputWidget> {
           style: GoogleFonts.inter(
               color: widget.borderColorBlack ? appBackground : appAccent2,
               fontWeight: FontWeight.bold,
-              fontSize: 22),
+              fontSize: widget.fontSize),
           decoration: InputDecoration(
               hintText: widget.text,
               hintStyle: GoogleFonts.inter(
@@ -58,7 +63,7 @@ class _InputWidgetState extends State<InputWidget> {
                       ? widget.hintColor.withOpacity(widget.opacityValue)
                       : widget.hintColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 22),
+                  fontSize: widget.fontSize),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent)),
               focusedBorder: OutlineInputBorder(

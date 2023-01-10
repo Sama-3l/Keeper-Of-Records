@@ -5,3 +5,5 @@ const int weeks = 14;
 const int classesEachWeek = 4;
 
 const int numberOfClasses = weeks * classesEachWeek;
+
+const int buttonSize = 92;
