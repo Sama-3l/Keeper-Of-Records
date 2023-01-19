@@ -70,7 +70,7 @@ class _InputWidgetState extends State<InputWidget> {
                   borderSide: BorderSide(color: Colors.transparent)),
               errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent)),
-              errorText: widget.error ? "Check Input Bitch" : null,
+              errorText: widget.error ? "Check Input" : null,
               errorStyle: GoogleFonts.inter(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,

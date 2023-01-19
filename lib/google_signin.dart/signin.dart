@@ -169,22 +169,25 @@ class _AppSignInState extends State<AppSignIn> {
                           child: ElevatedButton(
                               onPressed: () async {
                                 //(3.2.2.2:1) Checks if the enteries are correct and passes to mobile body if it works
-                                setState(() async {
-                                  errorTextField[0] = (await strMethods.check(
-                                      username.text, "username"))!;
-                                  errorTextField[1] = (await strMethods.check(
-                                      branch.text, "branch"))!;
-                                  errorTextField[2] = (await strMethods.check(
-                                      semester.text, "semester"))!;
-                                  if (errorTextField[0] &&
-                                      errorTextField[1] &&
-                                      errorTextField[2]) {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MobileBody()));
-                                  }
+                                errorTextField[0] = (await strMethods.check(
+                                    username.text, "username"))!;
+                                errorTextField[1] = (await strMethods.check(
+                                    branch.text, "branch"))!;
+                                errorTextField[2] = (await strMethods.check(
+                                    semester.text, "semester"))!;
+                                print(errorTextField);
+                                if (!errorTextField[0] &&
+                                    !errorTextField[1] &&
+                                    !errorTextField[2]) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MobileBody()));
+                                }
+                                setState(() {
+                                  errorTextField[0] = errorTextField[0];
+                                  errorTextField[1] = errorTextField[1];
+                                  errorTextField[2] = errorTextField[2];
                                 });
                               },
                               style: ElevatedButton.styleFrom(

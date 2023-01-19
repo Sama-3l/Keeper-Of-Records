@@ -90,10 +90,14 @@ class StringChecks {
   Future<bool?> check(String text, String field) async {
     final userDocs = FirebaseFirestore.instance.collection('Users');
 
-    if (text == "" || text == " ")
+    if (text == "" || text == " "){
+      print('true');
       return true;
+    }
+      
     else {
       userDocs.doc(userGlobal?.displayName).update({field.toLowerCase(): text});
+      print(false);
       return false;
     }
   }
